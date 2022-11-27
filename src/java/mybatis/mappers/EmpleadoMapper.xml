@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="empleados">
+    <select id="obtenerEmpleados" resultType="pojos.Empleado">
+        SELECT *   
+        FROM empleado
+    </select>
+    
+    <insert id="registrarEmpleado" parameterType="pojos.Empleado">
+        INSERT INTO empleado (nombre, apellidoPaterno, apellidoMaterno, correo, password)
+        VALUES (#{nombre}, #{apellidoPaterno}, #{apellidoMaterno}, #{correo}, #{password})
+    </insert>
+    
+    <update id="modificarEmpleado" parameterType="pojos.Empleado">
+        UPDATE empleado SET nombre = #{nombre}, apellidoPaterno = #{apellidoPaterno}, apellidoMaterno = #{apellidoMaterno},  password = #{password}
+        WHERE idEmpleado =  #{idEmpleado}
+    </update>
+    
+
+    <delete id="eliminarEmpleado"  parameterType="int">
+       DELETE FROM empleado WHERE idEmpleado = #{idEmpleado}
+    </delete>
+
+
+</mapper>
