@@ -19,10 +19,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idEmpleado =  #{idEmpleado}
     </update>
     
-
     <delete id="eliminarEmpleado"  parameterType="int">
        DELETE FROM empleado WHERE idEmpleado = #{idEmpleado}
     </delete>
+    
+    <select id="validarCredencialesEscritorio" parameterType="pojos.Empleado" resultType="pojos.Empleado">
+        SELECT correo, password
+        FROM empleado
+        WHERE correo = #{correo} AND password = #{password}
+    </select>
 
 
 </mapper>
