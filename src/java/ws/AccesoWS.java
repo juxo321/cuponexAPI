@@ -20,6 +20,7 @@ import org.apache.ibatis.session.SqlSession;
 import pojos.Empleado;
 import pojos.MensajeRespuesta;
 import pojos.RespuestaLogin;
+import pojos.Usuario;
 
 
 @Path("acceso")
@@ -69,46 +70,46 @@ public class AccesoWS {
         return respuesta; 
     }
     
-//    @Path("movil")
-//    @POST
-//    public RespuestaLogin validarCredencialesMovil(
-//            @FormParam("usuario") String usuario,
-//            @FormParam("password")String password
-//            ){
-//        RespuestaLogin respuesta = new RespuestaLogin();
-//        Paciente pacienteNuevo = new Paciente();
-//        pacienteNuevo.setUsuario(usuario);
-//        pacienteNuevo.setPassword(password);
-//        
-//        SqlSession conexionBD = MyBatisUtils.getSession();
-//
-//        if(conexionBD != null){
-//            try {
-//                Paciente paciente = conexionBD.selectOne("pacientes.validarCredenciales", pacienteNuevo);
-//                conexionBD.commit();
-//                if(paciente != null){
-//                    respuesta.setError(false);
-//                    respuesta.setMensaje("Usuario correcto...");
-//                    respuesta.setNombre(paciente.getNombre());
-//                    respuesta.setApellidoPaterno(paciente.getApellidoPaterno());
-//                }else{
-//                    respuesta.setError(true);
-//                    respuesta.setMensaje("Credenciales de acceso incorrectas");
-//                }
-//            } catch (Exception e) {
-//                respuesta.setError(true);
-//                respuesta.setMensaje(e.getMessage());
-//            }finally{
-//                conexionBD.close();
-//            }
-//        }else{
-//            respuesta.setError(true);
-//            respuesta.setMensaje("Servicio no disponible, intentelo más tarde");
-//        }
-//        return respuesta; 
-//       
-//    
-//    }
+    @Path("movil")
+    @POST
+    public RespuestaLogin validarCredencialesMovil(
+            @FormParam("correo") String correo,
+            @FormParam("password")String password
+            ){
+        RespuestaLogin respuesta = new RespuestaLogin();
+        Usuario usuarioNuevo = new Usuario();
+        usuarioNuevo.setCorreo(correo);
+        usuarioNuevo.setPassword(password);
+        
+        SqlSession conexionBD = MyBatisUtils.getSession();
+
+        if(conexionBD != null){
+            try {
+                Usuario usuario = conexionBD.selectOne("usuarios.validarCredencialesMovil", usuarioNuevo);
+                conexionBD.commit();
+                if(usuario != null){
+                    respuesta.setError(false);
+                    respuesta.setMensaje(MensajeRespuesta.credencialesCorrectas);
+                    respuesta.setNombre(usuario.getNombre());
+                    respuesta.setApellidoPaterno(usuario.getApellidoPaterno());
+                }else{
+                    respuesta.setError(true);
+                    respuesta.setMensaje(MensajeRespuesta.credencialesIncorrectas);
+                }
+            } catch (Exception e) {
+                respuesta.setError(true);
+                respuesta.setMensaje(e.getMessage());
+            }finally{
+                conexionBD.close();
+            }
+        }else{
+            respuesta.setError(true);
+            respuesta.setMensaje(MensajeRespuesta.errorConexion);
+        }
+        return respuesta; 
+       
+    
+    }
 
 
    
