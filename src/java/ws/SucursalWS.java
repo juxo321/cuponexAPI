@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ws;
 
 import java.util.List;
@@ -19,64 +14,68 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import mybatis.MyBatisUtils;
 import org.apache.ibatis.session.SqlSession;
-import pojos.Empleado;
+import pojos.Empresa;
 import pojos.MensajeRespuesta;
 import pojos.Respuesta;
-import pojos.Usuario;
+import pojos.Sucursal;
 
 
-@Path("usuarios")
-public class UsuarioWS {
+@Path("sucursales")
+public class SucursalWS {
 
     @Context
     private UriInfo context;
 
 
-    public UsuarioWS() {
+    public SucursalWS() {
     }
     
-    @Path("obtenerUsuarios") 
+    @Path("obtenerSucursales") 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Usuario> obtenerUsuarios(){
-        List<Usuario> listaUsuarios = null;
+    public List<Sucursal> obtenerSucursales(){
+        List<Sucursal> listaSucursales = null;
         SqlSession conexionbd = MyBatisUtils.getSession();
         if(conexionbd != null){
             try {
-                listaUsuarios = conexionbd.selectList("usuarios.obtenerUsuarios");
+                listaSucursales = conexionbd.selectList("sucursales.obtenerSucursales");
             } catch (Exception e) {
                 e.printStackTrace();
             }finally{
                 conexionbd.close();
             }
         }
-        return listaUsuarios;
+        return listaSucursales;
     }
     
-    @Path("registrarUsuario") 
+    @Path("registrarSucursal") 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta registrarUsuario(
+    public Respuesta registrarSucursal(
             @FormParam("nombre") String nombre,
-            @FormParam("apellidoPaterno") String apellidoPaterno,
-            @FormParam("apellidoMaterno") String apellidoMaterno,
-            @FormParam("telefono") String telefono,
-            @FormParam("correo") String correo,
             @FormParam("calle") String calle,
             @FormParam("numero") String numero,
-            @FormParam("fechaNacimiento") String fechaNacimiento,
-            @FormParam("password") String password
+            @FormParam("codigoPostal") String codigoPostal,
+            @FormParam("colonia") String colonia,
+            @FormParam("ciudad") String ciudad,
+            @FormParam("telefono") String telefono,
+            @FormParam("latitud") String latitud,
+            @FormParam("longitud") String longitud,
+            @FormParam("nombreEncargado") String nombreEncargado,
+            @FormParam("idEmpresa") Integer idEmpresa
             ){
-        Usuario usuarioNuevo = new Usuario();
-        usuarioNuevo.setNombre(nombre);
-        usuarioNuevo.setApellidoPaterno(apellidoPaterno);
-        usuarioNuevo.setApellidoMaterno(apellidoMaterno);
-        usuarioNuevo.setTelefono(telefono);
-        usuarioNuevo.setCorreo(correo);
-        usuarioNuevo.setCalle(calle);
-        usuarioNuevo.setNumero(numero);
-        usuarioNuevo.setFechaNacimiento(fechaNacimiento);
-        usuarioNuevo.setPassword(password);
+        Sucursal sucursal = new Sucursal();
+        sucursal.setNombre(nombre);
+        sucursal.setCalle(calle);
+        sucursal.setNumero(numero);
+        sucursal.setCodigoPostal(codigoPostal);
+        sucursal.setColonia(colonia);
+        sucursal.setCiudad(ciudad);
+        sucursal.setTelefono(telefono);
+        sucursal.setLatitud(latitud);
+        sucursal.setLongitud(longitud);
+        sucursal.setNombreEncargado(nombreEncargado);
+        sucursal.setIdEmpresa(idEmpresa);
         
         Respuesta respuesta = new Respuesta();
         respuesta.setError(true);
@@ -85,7 +84,7 @@ public class UsuarioWS {
         
         if(conexionBD !=null){
             try {
-                int resultado = conexionBD.insert("usuarios.registrarUsuario", usuarioNuevo);
+                int resultado = conexionBD.insert("sucursales.registrarSucursal", sucursal);
                 conexionBD.commit();
                 if(resultado > 0){
                     respuesta.setError(false);
@@ -105,31 +104,36 @@ public class UsuarioWS {
         return respuesta;
     }
     
-    @Path("modificarUsuario") 
+    @Path("modificarSucursal") 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta modificarUsuario(
-            @FormParam("idUsuario") Integer idUsuario,
+    public Respuesta modificarSucursal(
+            @FormParam("idSucursal") Integer idSucursal,
             @FormParam("nombre") String nombre,
-            @FormParam("apellidoPaterno") String apellidoPaterno,
-            @FormParam("apellidoMaterno") String apellidoMaterno,
-            @FormParam("telefono") String telefono,
             @FormParam("calle") String calle,
             @FormParam("numero") String numero,
-            @FormParam("fechaNacimiento") String fechaNacimiento,
-            @FormParam("password") String password
+            @FormParam("codigoPostal") String codigoPostal,
+            @FormParam("colonia") String colonia,
+            @FormParam("ciudad") String ciudad,
+            @FormParam("telefono") String telefono,
+            @FormParam("latitud") String latitud,
+            @FormParam("longitud") String longitud,
+            @FormParam("nombreEncargado") String nombreEncargado,
+            @FormParam("idEmpresa") Integer idEmpresa
             ){
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(idUsuario);
-        usuario.setNombre(nombre);
-        usuario.setApellidoPaterno(apellidoPaterno);
-        usuario.setApellidoMaterno(apellidoMaterno);
-        usuario.setTelefono(telefono);
-        usuario.setCalle(calle);
-        usuario.setNumero(numero);
-        usuario.setFechaNacimiento(fechaNacimiento);
-        usuario.setPassword(password);
-        
+        Sucursal sucursal = new Sucursal();
+        sucursal.setIdSucursal(idSucursal);
+        sucursal.setNombre(nombre);
+        sucursal.setCalle(calle);
+        sucursal.setNumero(numero);
+        sucursal.setCodigoPostal(codigoPostal);
+        sucursal.setColonia(colonia);
+        sucursal.setCiudad(ciudad);
+        sucursal.setTelefono(telefono);
+        sucursal.setLatitud(latitud);
+        sucursal.setLongitud(longitud);
+        sucursal.setNombreEncargado(nombreEncargado);
+        sucursal.setIdEmpresa(idEmpresa);
         
         Respuesta respuesta = new Respuesta();
         respuesta.setError(true);
@@ -138,7 +142,7 @@ public class UsuarioWS {
         
         if(conexionBD !=null){
             try {
-                int resultado = conexionBD.update("usuarios.modificarUsuario", usuario);
+                int resultado = conexionBD.update("sucursales.modificarSucursal", sucursal);
                 conexionBD.commit();
                 if(resultado > 0){
                     respuesta.setError(false);
@@ -158,17 +162,17 @@ public class UsuarioWS {
         return respuesta;
     }
     
-    @Path("eliminarUsuario")
+    @Path("eliminarSucursal")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta eliminarUsuario(
-            @FormParam("idUsuario") Integer idUsuario
+    public Respuesta eliminarSucursal(
+            @FormParam("idSucursal") Integer idSucursal
             ){
         Respuesta respuesta = new Respuesta();
         SqlSession conexionBD = MyBatisUtils.getSession();
         if(conexionBD != null){
             try {
-                int resultado = conexionBD.delete("usuarios.eliminarUsuario", idUsuario);
+                int resultado = conexionBD.delete("sucursales.eliminarSucursal", idSucursal);
                 conexionBD.commit();
                 if(resultado > 0){
                     respuesta.setError(false);
@@ -191,5 +195,6 @@ public class UsuarioWS {
     }
 
 
-    
+
+
 }

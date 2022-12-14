@@ -18,6 +18,8 @@
     <mappers>
         <mapper resource="mybatis/mappers/EmpleadoMapper.xml"/>
         <mapper resource="mybatis/mappers/UsuarioMapper.xml"/>
+        <mapper resource="mybatis/mappers/EmpresaMapper.xml"/>
+        <mapper resource="mybatis/mappers/SucursalMapper.xml"/>
     </mappers>
 </configuration>
 

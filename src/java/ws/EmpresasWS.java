@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ws;
 
 import java.util.List;
@@ -20,63 +16,69 @@ import javax.ws.rs.core.MediaType;
 import mybatis.MyBatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import pojos.Empleado;
+import pojos.Empresa;
 import pojos.MensajeRespuesta;
 import pojos.Respuesta;
-import pojos.Usuario;
 
 
-@Path("usuarios")
-public class UsuarioWS {
+@Path("empresas")
+public class EmpresasWS {
 
     @Context
     private UriInfo context;
 
 
-    public UsuarioWS() {
+    public EmpresasWS() {
     }
     
-    @Path("obtenerUsuarios") 
+    @Path("obtenerEmpresas") 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Usuario> obtenerUsuarios(){
-        List<Usuario> listaUsuarios = null;
+    public List<Empresa> obtenerEmpresas(){
+        List<Empresa> listaEmpresas = null;
         SqlSession conexionbd = MyBatisUtils.getSession();
         if(conexionbd != null){
             try {
-                listaUsuarios = conexionbd.selectList("usuarios.obtenerUsuarios");
+                listaEmpresas = conexionbd.selectList("empresa.obtenerEmpresas");
             } catch (Exception e) {
                 e.printStackTrace();
             }finally{
                 conexionbd.close();
             }
         }
-        return listaUsuarios;
+        return listaEmpresas;
     }
     
-    @Path("registrarUsuario") 
+    @Path("registrarEmpresa") 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta registrarUsuario(
+    public Respuesta registrarEmpresa(
             @FormParam("nombre") String nombre,
-            @FormParam("apellidoPaterno") String apellidoPaterno,
-            @FormParam("apellidoMaterno") String apellidoMaterno,
-            @FormParam("telefono") String telefono,
+            @FormParam("nombreComercial") String nombreComercial,
+            @FormParam("nombreRepresentante") String nombreRepresentante,
             @FormParam("correo") String correo,
             @FormParam("calle") String calle,
             @FormParam("numero") String numero,
-            @FormParam("fechaNacimiento") String fechaNacimiento,
-            @FormParam("password") String password
+            @FormParam("codigoPostal") String codigoPostal,
+            @FormParam("ciudad") String ciudad,
+            @FormParam("telefono") String telefono,
+            @FormParam("paginaWeb") String paginaWeb,
+            @FormParam("rfc") String rfc,
+            @FormParam("idEstatus") Integer idEstatus
             ){
-        Usuario usuarioNuevo = new Usuario();
-        usuarioNuevo.setNombre(nombre);
-        usuarioNuevo.setApellidoPaterno(apellidoPaterno);
-        usuarioNuevo.setApellidoMaterno(apellidoMaterno);
-        usuarioNuevo.setTelefono(telefono);
-        usuarioNuevo.setCorreo(correo);
-        usuarioNuevo.setCalle(calle);
-        usuarioNuevo.setNumero(numero);
-        usuarioNuevo.setFechaNacimiento(fechaNacimiento);
-        usuarioNuevo.setPassword(password);
+        Empresa empresaNueva = new Empresa();
+        empresaNueva.setNombre(nombre);
+        empresaNueva.setNombreComercial(nombreComercial);
+        empresaNueva.setNombreRepresentante(nombreRepresentante);
+        empresaNueva.setCorreo(correo);
+        empresaNueva.setCalle(calle);
+        empresaNueva.setNumero(numero);
+        empresaNueva.setCodigoPostal(codigoPostal);
+        empresaNueva.setCiudad(ciudad);
+        empresaNueva.setTelefono(telefono);
+        empresaNueva.setPaginaWeb(paginaWeb);
+        empresaNueva.setRfc(rfc);
+        empresaNueva.setIdEstatus(idEstatus);
         
         Respuesta respuesta = new Respuesta();
         respuesta.setError(true);
@@ -85,7 +87,7 @@ public class UsuarioWS {
         
         if(conexionBD !=null){
             try {
-                int resultado = conexionBD.insert("usuarios.registrarUsuario", usuarioNuevo);
+                int resultado = conexionBD.insert("empresa.registrarEmpresa", empresaNueva);
                 conexionBD.commit();
                 if(resultado > 0){
                     respuesta.setError(false);
@@ -105,31 +107,34 @@ public class UsuarioWS {
         return respuesta;
     }
     
-    @Path("modificarUsuario") 
+    @Path("modificarEmpresa") 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta modificarUsuario(
-            @FormParam("idUsuario") Integer idUsuario,
+    public Respuesta modificarEmpresa(
             @FormParam("nombre") String nombre,
-            @FormParam("apellidoPaterno") String apellidoPaterno,
-            @FormParam("apellidoMaterno") String apellidoMaterno,
-            @FormParam("telefono") String telefono,
+            @FormParam("nombreComercial") String nombreComercial,
+            @FormParam("nombreRepresentante") String nombreRepresentante,
+            @FormParam("correo") String correo,
             @FormParam("calle") String calle,
             @FormParam("numero") String numero,
-            @FormParam("fechaNacimiento") String fechaNacimiento,
-            @FormParam("password") String password
+            @FormParam("codigoPostal") String codigoPostal,
+            @FormParam("ciudad") String ciudad,
+            @FormParam("telefono") String telefono,
+            @FormParam("paginaWeb") String paginaWeb,
+            @FormParam("idEstatus") Integer idEstatus
             ){
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(idUsuario);
-        usuario.setNombre(nombre);
-        usuario.setApellidoPaterno(apellidoPaterno);
-        usuario.setApellidoMaterno(apellidoMaterno);
-        usuario.setTelefono(telefono);
-        usuario.setCalle(calle);
-        usuario.setNumero(numero);
-        usuario.setFechaNacimiento(fechaNacimiento);
-        usuario.setPassword(password);
-        
+        Empresa empresa = new Empresa();
+        empresa.setNombre(nombre);
+        empresa.setNombreComercial(nombreComercial);
+        empresa.setNombreRepresentante(nombreRepresentante);
+        empresa.setCorreo(correo);
+        empresa.setCalle(calle);
+        empresa.setNumero(numero);
+        empresa.setCodigoPostal(codigoPostal);
+        empresa.setCiudad(ciudad);
+        empresa.setTelefono(telefono);
+        empresa.setPaginaWeb(paginaWeb);
+        empresa.setIdEstatus(idEstatus);
         
         Respuesta respuesta = new Respuesta();
         respuesta.setError(true);
@@ -138,7 +143,7 @@ public class UsuarioWS {
         
         if(conexionBD !=null){
             try {
-                int resultado = conexionBD.update("usuarios.modificarUsuario", usuario);
+                int resultado = conexionBD.update("empresa.modificarEmpresa", empresa);
                 conexionBD.commit();
                 if(resultado > 0){
                     respuesta.setError(false);
@@ -158,17 +163,17 @@ public class UsuarioWS {
         return respuesta;
     }
     
-    @Path("eliminarUsuario")
+    @Path("eliminarEmpresa")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Respuesta eliminarUsuario(
-            @FormParam("idUsuario") Integer idUsuario
+    public Respuesta eliminarEmpresa(
+            @FormParam("idEmpresa") Integer idEmpresa
             ){
         Respuesta respuesta = new Respuesta();
         SqlSession conexionBD = MyBatisUtils.getSession();
         if(conexionBD != null){
             try {
-                int resultado = conexionBD.delete("usuarios.eliminarUsuario", idUsuario);
+                int resultado = conexionBD.delete("empresa.eliminarEmpresa", idEmpresa);
                 conexionBD.commit();
                 if(resultado > 0){
                     respuesta.setError(false);
@@ -191,5 +196,4 @@ public class UsuarioWS {
     }
 
 
-    
 }

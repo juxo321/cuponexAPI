@@ -4,6 +4,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="usuarios">
+    <select id="obtenerUsuarios" resultType="pojos.Usuario">
+        SELECT *   
+        FROM usuario
+    </select>
 
     <insert id="registrarUsuario" parameterType="pojos.Usuario">
         INSERT INTO usuario (nombre, apellidoPaterno, apellidoMaterno, telefono, correo, calle,numero,fechaNacimiento, password)
@@ -15,8 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idUsuario =  #{idUsuario}
     </update>
     
-    <delete id="eliminarEmpleado"  parameterType="int">
-       DELETE FROM empleado WHERE idEmpleado = #{idEmpleado}
+    <delete id="eliminarUsuario"  parameterType="int">
+       DELETE FROM usuario WHERE idUsuario = #{idUsuario}
     </delete>
     
     <select id="validarCredencialesMovil" parameterType="pojos.Usuario" resultType="pojos.Usuario">
