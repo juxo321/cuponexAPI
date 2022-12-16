@@ -23,6 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        DELETE FROM sucursal WHERE idSucursal = #{idSucursal}
     </delete>
     
+    <select id= "obtenerPorNombreSucursal" parameterType="String"  resultType="pojos.Sucursal" >
+         SELECT *   
+        FROM sucursal
+        WHERE nombre = #{nombre}
+    </select>
+    
 
 
 </mapper>

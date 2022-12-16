@@ -22,14 +22,14 @@ public class Promocion {
     private Float costoPromocion;
     private Integer idCategoria;
     private Integer idEstatus;
-    private Integer idSucursal;
 
     public Promocion() {
     }
 
-    public Promocion(Integer idPromocion, String nombrePromocion, String descripcion, String fechaInicio, String fechaTermino, String restricciones, Integer idTipoPromocion, Integer porcentajeDescuento, Float costoPromocion, Integer idCategoria, Integer idEstatus, Integer idSucursal) {
+    public Promocion(Integer idPromocion, String nombrePromocion, String foto, String descripcion, String fechaInicio, String fechaTermino, String restricciones, Integer idTipoPromocion, Integer porcentajeDescuento, Float costoPromocion, Integer idCategoria, Integer idEstatus) {
         this.idPromocion = idPromocion;
         this.nombrePromocion = nombrePromocion;
+        this.foto = foto;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaTermino = fechaTermino;
@@ -39,7 +39,6 @@ public class Promocion {
         this.costoPromocion = costoPromocion;
         this.idCategoria = idCategoria;
         this.idEstatus = idEstatus;
-        this.idSucursal = idSucursal;
     }
 
     public Integer getIdPromocion() {
@@ -138,14 +137,7 @@ public class Promocion {
         this.idEstatus = idEstatus;
     }
 
-    public Integer getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(Integer idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
+    
     
     
 }

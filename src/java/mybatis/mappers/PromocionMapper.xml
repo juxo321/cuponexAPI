@@ -5,13 +5,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="promociones">
     
+     <select id="obtenerPromocion"   resultType="pojos.Promocion">
+       SELECT * FROM promocion WHERE idEstatus =  401
+    </select>
+    
     <insert id="registrarPromocion" parameterType="pojos.Promocion" useGeneratedKeys="true" keyProperty="idPromocion">
         <selectKey keyColumn="idPromocion" keyProperty="idPromocion" order="AFTER" resultType="int">
             SELECT LAST_INSERT_ID()
         </selectKey>
-            INSERT INTO promocion (nombrePromocion, descripcion,  fechaInicio, fechaTermino, restricciones, idTipoPromocion, porcentajeDescuento, costoPromocion, idCategoria, idEstatus, idSucursal)
-            VALUES (#{nombrePromocion}, #{descripcion}, #{fechaInicio}, #{fechaTermino}, #{restricciones}, #{idTipoPromocion}, #{porcentajeDescuento}, #{costoPromocion}, #{idCategoria}, #{idEstatus}, #{idSucursal})
+            INSERT INTO promocion (nombrePromocion, descripcion,  fechaInicio, fechaTermino, restricciones, idTipoPromocion, porcentajeDescuento, costoPromocion, idCategoria, idEstatus
+            VALUES (#{nombrePromocion}, #{descripcion}, #{fechaInicio}, #{fechaTermino}, #{restricciones}, #{idTipoPromocion}, #{porcentajeDescuento}, #{costoPromocion}, #{idCategoria}, #{idEstatus})
     </insert>
+    
+    <update id="modificarPromocion" parameterType="pojos.Promocion">
+        UPDATE promocion SET nombrePromocion = #{nombrePromocion}, descripcion = #{descripcion}, restricciones = #{restricciones}, idTipoPromocion = #{idTipoPromocion}, porcentajeDescuento = #{porcentajeDescuento}, costoPromocion = #{costoPromocion}, idCategoria = #{idCategoria}, idEstatus = #{idEstatus}
+        WHERE idPromocion = #{idPromocion}
+    </update>
+    
+    <update id="eliminarPromocion" parameterType="int">
+        UPDATE promocion SET idEstatus = 402
+        WHERE idPromocion = #{idPromocion}
+    </update>
+    
+    <update id="subirFotoPromocion" parameterType="map">
+        UPDATE  promocion SET foto = #{foto}
+        WHERE idPromocion= #{idPromocion}
+    </update>
+    
+    <select id= "obtenerPorNombre" parameterType="String"  resultType="pojos.Promocion" >
+         SELECT *   
+        FROM promocion
+        WHERE nombrePromocion = #{nombrePromocion}
+    </select>
     
 
 </mapper>
